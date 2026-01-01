@@ -10,3 +10,7 @@ I'll use VS code's built in AI agents to manage the task. I'll try with free mod
 npm i
 npm run start
 ```
+
+## Result
+
+![Success](assets/success.png)
