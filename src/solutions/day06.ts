@@ -61,8 +61,8 @@ const solve = (inputArg?: string) => {
     segments.push([start, end]);
   }
 
-  let grandTotal = 0n;
-
+  // Part 1: numbers are arranged vertically in each problem block (as before)
+  let part1Total = 0n;
   for (const [s, e] of segments) {
     const nums: bigint[] = [];
     for (const ln of numberLines) {
@@ -86,10 +86,48 @@ const solve = (inputArg?: string) => {
       for (const n of nums) res *= n;
     }
 
-    grandTotal += res;
+    part1Total += res;
   }
 
-  console.log(`Day 06 — Part 1: ${grandTotal.toString()}`);
+  console.log(`Day 06 — Part 1: ${part1Total.toString()}`);
+
+  // Part 2: cephalopod math is right-to-left in columns; each column is one number
+  let part2Total = 0n;
+  for (const [s, e] of segments) {
+    // find operator for this block
+    const opSub = opLine.slice(s, e + 1);
+    const opMatch = opSub.match(/[+*]/);
+    if (!opMatch) continue;
+    const op = opMatch[0];
+
+    const colNums: bigint[] = [];
+    // read columns right-to-left
+    for (let col = e; col >= s; col--) {
+      let digits = '';
+      for (let r = 0; r < numberLines.length; r++) {
+        const ch = numberLines[r][col] || ' ';
+        digits += ch;
+      }
+      const m = digits.match(/\d+/g);
+      if (!m) continue;
+      // join all digit groups in column (should usually be one group)
+      const numStr = m.join('');
+      colNums.push(BigInt(numStr));
+    }
+
+    if (colNums.length === 0) continue;
+
+    let res2 = op === '+' ? 0n : 1n;
+    if (op === '+') {
+      for (const n of colNums) res2 += n;
+    } else {
+      for (const n of colNums) res2 *= n;
+    }
+
+    part2Total += res2;
+  }
+
+  console.log(`Day 06 — Part 2: ${part2Total.toString()}`);
 };
 
 export default { solve };
