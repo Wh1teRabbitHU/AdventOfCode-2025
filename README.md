@@ -1,4 +1,4 @@
-# AdventOfCode-2023
+# AdventOfCode-2025
 
 Doing Advent of Code 2025 in typescript, but only using LLM to generate the solutions!
 

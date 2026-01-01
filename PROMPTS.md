@@ -1,3 +1,4 @@
+```markdown
 # PROMPTS and Assistant Summaries
 
 This file documents the user's prompts and a concise summary of the assistant's responses for later reference.
@@ -66,4 +67,37 @@ Assistant summary:
 - **Dependencies:** If you change dependencies, update `package.json`.
 - **Day solutions:** Add new puzzle solutions in `src/solutions/dayXX.ts` (zero-padded) and wire them into `./index.ts`.
 - **Scope:** Keep changes minimal, self-contained, and consistent with the project.
+
+---
+
+## Prompt 6
+User prompt:
+
+> added the second half of the day 1 challenge to the description markdown file, solve it based on your instructions! (See <attachments> above for file contents. You may not need to search or read the file again.)
+
+Assistant summary:
+
+- Implemented Part Two in `src/solutions/day01.ts`: counted zeros encountered during rotations (method 0x434C49434B) and kept the original end-of-rotation count. Verified by running `npm run start` which printed the two results (part1 = 1031, part2 = 5831).
+
+---
+
+## Prompt 7
+User prompt:
+
+> Improve the console log output by adding the day and the part number, so it's easier to follow later (See <attachments> above for file contents. You may not need to search or read the file again.)
+
+Assistant summary:
+
+- Updated `src/solutions/day01.ts` to print labeled outputs: `Day 01 — Part 1: <value>` and `Day 01 — Part 2: <value>`. Ran `npm run start` to confirm the labeled output.
+
+---
+
+## Prompt 8
+User prompt:
+
+> Don't forget to document the prompts in the PROMPTS.md file! (See <attachments> above for file contents. You may not need to search or read the file again.)
+
+Assistant summary:
+
+- Appended recent prompts and concise assistant summaries to `PROMPTS.md` as requested.
 
