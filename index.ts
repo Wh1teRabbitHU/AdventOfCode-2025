@@ -9,6 +9,7 @@ import day08 from './src/solutions/day08';
 import day09 from './src/solutions/day09';
 import day10 from './src/solutions/day10';
 import day11 from './src/solutions/day11';
+import day12 from './src/solutions/day12';
 
 day01.solve();
 day02.solve();
@@ -21,3 +22,4 @@ day08.solve();
 day09.solve();
 day10.solve();
 day11.solve();
+day12.solve();
