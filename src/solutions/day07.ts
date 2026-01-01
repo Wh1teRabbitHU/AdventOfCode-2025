@@ -72,6 +72,47 @@ const solve = (inputArg?: string) => {
   }
 
   console.log(`Day 07 — Part 1: ${splitCount}`);
+
+  // Part 2: quantum particle — count timelines (BigInt since it can grow)
+  let timelines = new Map<string, bigint>();
+  timelines.set(`${startR},${startC}`, 1n);
+  let exitCount = 0n;
+  while (timelines.size > 0) {
+    const next = new Map<string, bigint>();
+    for (const [key, cnt] of timelines) {
+      const [rStr, cStr] = key.split(',');
+      const r = Number(rStr);
+      const c = Number(cStr);
+      const tr = r + 1;
+      if (tr >= rows) {
+        exitCount += cnt;
+        continue;
+      }
+      const cell = grid[tr][c] || '.';
+      if (cell === '^') {
+        const lc = c - 1;
+        const rc = c + 1;
+        if (lc < 0) {
+          exitCount += cnt;
+        } else {
+          const k = `${tr},${lc}`;
+          next.set(k, (next.get(k) || 0n) + cnt);
+        }
+        if (rc >= cols) {
+          exitCount += cnt;
+        } else {
+          const k = `${tr},${rc}`;
+          next.set(k, (next.get(k) || 0n) + cnt);
+        }
+      } else {
+        const k = `${tr},${c}`;
+        next.set(k, (next.get(k) || 0n) + cnt);
+      }
+    }
+    timelines = next;
+  }
+
+  console.log(`Day 07 — Part 2: ${exitCount.toString()}`);
 };
 
 export default { solve };
