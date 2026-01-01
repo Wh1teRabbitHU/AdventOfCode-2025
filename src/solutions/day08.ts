@@ -87,7 +87,49 @@ const solve = (inputArg?: string) => {
   const product = top3[0] * top3[1] * top3[2];
 
   console.log(`Day 08 — Part 1: ${product}`);
-  console.log(`Day 08 — Part 2: 0`);
+  // Part 2: start fresh and union pairs until a single component remains
+  const parent2 = new Array<number>(n);
+  const size2 = new Array<number>(n).fill(1);
+  for (let i = 0; i < n; i++) parent2[i] = i;
+  const find2 = (a: number): number => {
+    if (parent2[a] === a) return a;
+    parent2[a] = find2(parent2[a]);
+    return parent2[a];
+  };
+  const union2 = (a: number, b: number): boolean => {
+    const ra = find2(a);
+    const rb = find2(b);
+    if (ra === rb) return false;
+    if (size2[ra] < size2[rb]) {
+      parent2[ra] = rb;
+      size2[rb] += size2[ra];
+    } else {
+      parent2[rb] = ra;
+      size2[ra] += size2[rb];
+    }
+    return true;
+  };
+
+  let components = n;
+  let lastPair: {i: number; j: number} | null = null;
+  for (let idx = 0; idx < pairs.length; idx++) {
+    const p = pairs[idx];
+    if (union2(p.i, p.j)) {
+      components -= 1;
+      if (components === 1) {
+        lastPair = { i: p.i, j: p.j };
+        break;
+      }
+    }
+  }
+
+  if (lastPair) {
+    const xi = pts[lastPair.i][0];
+    const xj = pts[lastPair.j][0];
+    console.log(`Day 08 — Part 2: ${xi * xj}`);
+  } else {
+    console.log(`Day 08 — Part 2: 0`);
+  }
 };
 
 export default { solve };
