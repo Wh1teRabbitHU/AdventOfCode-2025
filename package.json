@@ -1,0 +1,31 @@
+{
+	"name": "adventofcode-2025",
+	"version": "1.0.0",
+	"description": "Advent of code 2025 in typescript",
+	"main": "index.ts",
+	"scripts": {
+		"start": "ts-node index.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Wh1teRabbitHU/AdventOfCode-2025.git"
+	},
+	"keywords": [
+		"advent",
+		"of",
+		"code",
+		"challenge",
+		"2025"
+	],
+	"author": "Tamas Ruszka",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/Wh1teRabbitHU/AdventOfCode-2025/issues"
+	},
+	"homepage": "https://github.com/Wh1teRabbitHU/AdventOfCode-2025#readme",
+	"devDependencies": {
+		"@tsconfig/node20": "20.1.8",
+		"ts-node": "10.9.2",
+		"typescript": "5.9.3"
+	}
+}

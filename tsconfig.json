@@ -1,0 +1,19 @@
+{
+	"extends": "./node_modules/@tsconfig/node20/tsconfig.json",
+	"compilerOptions": {
+		"module": "NodeNext",
+		"outDir": "./build",
+		"esModuleInterop": true,
+		"moduleResolution": "NodeNext",
+		"resolveJsonModule": true,
+		"strict": true,
+		"target": "ES2022",
+	},
+	"include": [
+		"src",
+		"index.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
