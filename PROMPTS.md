@@ -49,3 +49,21 @@ Assistant summary:
 ---
 
 If you'd like a different format (e.g., CSV, more verbose logs, timestamps, or including full assistant messages instead of summaries), tell me and I'll update `PROMPTS.md`.
+
+---
+
+## Prompt 5
+User prompt:
+
+> summarize your context I defined for you in the instructions file! (See <attachments> above for file contents. You may not need to search or read the file again.)
+
+Assistant summary:
+
+- **Language:** Always use TypeScript for any new code.
+- **Documentation:** Record every user prompt and a concise summary of the assistant response in `PROMPTS.md`.
+- **Style:** Follow the repository's existing code style and conventions.
+- **Verify:** Before finalizing any code, run `npm run start` and confirm the code runs and output is correct.
+- **Dependencies:** If you change dependencies, update `package.json`.
+- **Day solutions:** Add new puzzle solutions in `src/solutions/dayXX.ts` (zero-padded) and wire them into `./index.ts`.
+- **Scope:** Keep changes minimal, self-contained, and consistent with the project.
+
