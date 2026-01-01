@@ -49,8 +49,32 @@ const solve = (inputArg?: string) => {
     }
     if (isFresh) freshCount++;
   }
-
   console.log(`Day 05 — Part 1: ${freshCount}`);
+
+  // Part 2: count total unique IDs covered by the ranges
+  if (ranges.length === 0) {
+    console.log('Day 05 — Part 2: 0');
+    return;
+  }
+
+  const sorted = ranges.slice().sort((a, b) => a[0] - b[0]);
+  let totalUnique = 0;
+  let curLo = sorted[0][0];
+  let curHi = sorted[0][1];
+  for (let i = 1; i < sorted.length; i++) {
+    const [lo, hi] = sorted[i];
+    if (lo <= curHi) {
+      // overlapping or touching at same endpoint
+      if (hi > curHi) curHi = hi;
+    } else {
+      totalUnique += curHi - curLo + 1;
+      curLo = lo;
+      curHi = hi;
+    }
+  }
+  totalUnique += curHi - curLo + 1;
+
+  console.log(`Day 05 — Part 2: ${totalUnique}`);
 };
 
 export default { solve };
