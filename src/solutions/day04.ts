@@ -47,8 +47,34 @@ const solve = (inputArg?: string) => {
       if (cnt < 4) accessible++;
     }
   }
-
+  // Part 1 result
   console.log(`Day 04 — Part 1: ${accessible}`);
+
+  // Part 2: iteratively remove accessible rolls until none remain
+  // Create a mutable copy of the grid
+  const grid2 = lines.map(l => l.split(''));
+  let totalRemoved = 0;
+  while (true) {
+    const toRemove: Array<[number, number]> = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (grid2[r][c] !== '@') continue;
+        let cnt = 0;
+        for (const [dr, dc] of neigh) {
+          const nr = r + dr;
+          const nc = c + dc;
+          if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+          if (grid2[nr][nc] === '@') cnt++;
+        }
+        if (cnt < 4) toRemove.push([r, c]);
+      }
+    }
+    if (toRemove.length === 0) break;
+    totalRemoved += toRemove.length;
+    for (const [r, c] of toRemove) grid2[r][c] = '.';
+  }
+
+  console.log(`Day 04 — Part 2: ${totalRemoved}`);
 };
 
 export default { solve };
