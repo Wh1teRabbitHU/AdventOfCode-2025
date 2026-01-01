@@ -28,8 +28,6 @@ const solve = (inputArg?: string) => {
     return { a: BigInt(a), b: BigInt(b) };
   });
 
-  let total = BigInt(0);
-
   // Determine maximum length of numbers we need to consider
   let maxDigits = 0;
   for (const { b } of ranges) {
@@ -39,26 +37,75 @@ const solve = (inputArg?: string) => {
 
   const maxHalf = Math.floor(maxDigits / 2);
 
-  for (const { a, b } of ranges) {
-    for (let h = 1; h <= maxHalf; h++) {
-      const m = pow10(h) + BigInt(1); // number = first * m
-      const minFirst = pow10(h - 1);
-      const maxFirst = pow10(h) - BigInt(1);
+  const sumRange = (lo: bigint, hi: bigint) => {
+    if (lo > hi) return BigInt(0);
+    const cnt = hi - lo + BigInt(1);
+    return (cnt * (lo + hi)) / BigInt(2);
+  };
 
-      // ceil division: (a + m - 1) / m
-      const startFirst = a <= BigInt(0) ? minFirst : ((a + m - BigInt(1)) / m) > minFirst ? ((a + m - BigInt(1)) / m) : minFirst;
-      const endFirst = (b / m) < maxFirst ? (b / m) : maxFirst;
+  // Part 1: sequence repeated exactly twice
+  let part1 = BigInt(0);
+  for (let p = 1; p <= maxHalf; p++) {
+    const M = pow10(p) + BigInt(1); // multiplier for two repeats
+    const firstMin = pow10(p - 1);
+    const firstMax = pow10(p) - BigInt(1);
 
+    for (const { a, b } of ranges) {
+      const startFirst = ((a + M - BigInt(1)) / M) > firstMin ? ((a + M - BigInt(1)) / M) : firstMin;
+      const endFirst = (b / M) < firstMax ? (b / M) : firstMax;
       if (startFirst > endFirst) continue;
+      const sumF = sumRange(startFirst, endFirst);
+      part1 += M * sumF;
+    }
+  }
 
-      for (let f = startFirst; f <= endFirst; f++) {
-        const num = f * m;
-        if (num >= a && num <= b) total += num;
+  // Part 2: sequence repeated at least twice (count each invalid ID once)
+  let part2 = BigInt(0);
+
+  const isPrimitive = (s: string) => {
+    const n = s.length;
+    for (let d = 1; d <= Math.floor(n / 2); d++) {
+      if (n % d !== 0) continue;
+      const sub = s.slice(0, d);
+      if (sub.repeat(n / d) === s) return false;
+    }
+    return true;
+  };
+
+  for (let p = 1; p <= maxHalf; p++) {
+    const firstMin = pow10(p - 1);
+    const firstMax = pow10(p) - BigInt(1);
+
+    // iterate possible k (repetitions)
+    const maxK = Math.floor(maxDigits / p);
+    for (let k = 2; k <= maxK; k++) {
+      const totalLen = p * k;
+      const tenL = pow10(totalLen);
+      const denom = pow10(p) - BigInt(1);
+      const M = (tenL - BigInt(1)) / denom; // multiplier
+
+      for (const { a, b } of ranges) {
+        // find f range such that f * M in [a,b]
+        const startFirst = ((a + M - BigInt(1)) / M) > firstMin ? ((a + M - BigInt(1)) / M) : firstMin;
+        const endFirst = (b / M) < firstMax ? (b / M) : firstMax;
+        if (startFirst > endFirst) continue;
+
+        // iterate f in this (usually small) window and only count primitive blocks
+        // p is small (<= maxHalf) so this is efficient
+        let lo = startFirst;
+        let hi = endFirst;
+        for (let f = lo; f <= hi; f++) {
+          const fStr = f.toString();
+          if (!isPrimitive(fStr)) continue;
+          const num = f * M;
+          if (num >= a && num <= b) part2 += num;
+        }
       }
     }
   }
 
-  console.log(`Day 02 — Part 1: ${total.toString()}`);
+  console.log(`Day 02 — Part 1: ${part1.toString()}`);
+  console.log(`Day 02 — Part 2: ${part2.toString()}`);
 };
 
 export default { solve };

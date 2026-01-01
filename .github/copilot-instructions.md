@@ -7,3 +7,4 @@ You should follow the following instructions when generating code for this proje
 - Before finalizing any code, verify that it runs correctly with `npm run start` and produces the expected output.
 - If you make changes to dependencies, ensure that the package.json file is updated accordingly.
 - When you add a new day solution, create a new TypeScript file in the src/solutions folder named dayXX.ts, where XX is the day number with leading zeros (e.g., day01.ts for Day 1). Then add the call to the solution in `./index.ts` file.
+- Never try to commit the changes in git!
